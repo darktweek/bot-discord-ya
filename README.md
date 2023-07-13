@@ -5,6 +5,6 @@ Ce bot doit fonctionner avec un fichier .env qui contiendra "token=token-id" pou
 
 **__Hint:__**
  - *Commande pour démarrer le bot avec fichiers log:*
-		 - `nohup python3 bot-discord.py 1>bot-discord-log.out 2>bot-discord-log.err &`
+`nohup python3 bot-discord.py 1>bot-discord-log.out 2>bot-discord-log.err &`
  - *Commande pour mettre à jour le git:*
-		 - `git add . && git commit -m "cause" && git push origin`
+`git add . && git commit -m "cause" && git push origin`
