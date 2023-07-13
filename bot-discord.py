@@ -13,11 +13,11 @@ class Message(ui.Modal, title='Message à envoyer sur Annonces'):
     titre = ui.TextInput(label="Titre de l'annonce")
     texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
     async def on_submit(self, interaction: discord.Interaction):
-        embed = discord.Embed(title = f"{self.titre}", description = f"{self.texte}", color = 0x5865F2)
-        embed.set_author(name = f"Message de {interaction.user}", icon_url='https://yuanang.space/wp-content/uploads/2023/07/logo_v2fondround.png')
-        await interaction.response.send_message(f'{interaction.user}, ton message est envoyé', ephemeral=True)
         global chanid
         channel = client.get_channel(chanid)
+        embed = discord.Embed(title = f"{self.titre}", description = f"{self.texte}", color = 0x5865F2)
+        embed.set_footer(text = f"Message de {interaction.user}")
+        await interaction.response.send_message(f'{interaction.user}, ton message est envoyé sur <#{chanid}>', ephemeral=True)
         await channel.send(f"@everyone", embed = embed)
 
 @tree.command(name = "send-to-annonces", description = "Faire un message dans Annonces")
