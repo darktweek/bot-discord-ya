@@ -3,5 +3,8 @@ A small bot for my Discord Server Yu'anang (a small community from StarCitizen p
 
 Ce bot doit fonctionner avec un fichier .env qui contiendra "token=token-id" pour pouvoir fonctionner.
 
-commande pour démarrer le bot avec fichiers log
+--hint:--
+commande pour démarrer le bot avec fichiers log:
 nohup python3 bot-discord.py 1>bot-discord-log.out 2>bot-discord-log.err &
+commande pour mettre à jour le git:
+git add . && git commit -m "cause" && git push origin
