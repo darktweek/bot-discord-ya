@@ -4,6 +4,8 @@ A small bot for my Discord Server Yu'anang (a small community from StarCitizen p
 
 Ce bot doit fonctionner avec un fichier .env qui contiendra "token=token-id" pour pouvoir fonctionner.
 
+
+
 **__Hint:__**
  - *Commande pour démarrer le bot avec fichiers log:*
 
