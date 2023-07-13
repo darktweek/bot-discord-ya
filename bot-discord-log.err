@@ -1,3 +1,7 @@
 nohup: les entrées sont ignorées
-[2023-07-09 20:57:43] [INFO    ] discord.client: logging in using static token
-[2023-07-09 20:57:44] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: 9eaf930a82ceb4f7e8a30ead7a1cc1e1).
+Traceback (most recent call last):
+  File "/home/tweek/discord-bot-ya/bot-discord.py", line 12, in <module>
+    class Message(ui.Modal, title='Message à envoyé sur Annonces'):
+  File "/home/tweek/discord-bot-ya/bot-discord.py", line 14, in Message
+    role = guild.role
+NameError: name 'guild' is not defined
