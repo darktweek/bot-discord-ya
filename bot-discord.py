@@ -9,8 +9,8 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
-class Message(ui.Modal, title='Message à envoyer sur Annonces'):
-    titre = ui.TextInput(label="Titre de l'annonce")
+class Message(ui.Modal, title='Message à envoyer'):
+    titre = ui.TextInput(label="Titre du message")
     texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
     async def on_submit(self, interaction: discord.Interaction):
         global chanid
