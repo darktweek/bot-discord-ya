@@ -1,7 +1,0 @@
-nohup: les entrées sont ignorées
-Traceback (most recent call last):
-  File "/home/tweek/discord-bot-ya/bot-discord.py", line 12, in <module>
-    class Message(ui.Modal, title='Message à envoyé sur Annonces'):
-  File "/home/tweek/discord-bot-ya/bot-discord.py", line 14, in Message
-    role = guild.role
-NameError: name 'guild' is not defined

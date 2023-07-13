@@ -10,10 +10,11 @@ client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
 class Message(ui.Modal, title='Message à envoyer sur Annonces'):
+    titre = ui.TextInput(label="Titre de l'annonce")
     texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
     async def on_submit(self, interaction: discord.Interaction):
-        embed = discord.Embed(title = f"Annonce de {interaction.user}", description = f"{self.texte}", color = 0x5865F2)
-        embed.set_author(name = "Yu'ānang", icon_url='https://yuanang.space/wp-content/uploads/2023/07/logo_v2fondround.png')
+        embed = discord.Embed(title = f"{self.titre}", description = f"{self.texte}", color = 0x5865F2)
+        embed.set_author(name = f"Message de {interaction.user}", icon_url='https://yuanang.space/wp-content/uploads/2023/07/logo_v2fondround.png')
         await interaction.response.send_message(f'{interaction.user}, ton message est envoyé', ephemeral=True)
         global chanid
         channel = client.get_channel(chanid)
@@ -21,15 +22,21 @@ class Message(ui.Modal, title='Message à envoyer sur Annonces'):
 
 @tree.command(name = "send-to-annonces", description = "Faire un message dans Annonces")
 async def react(interaction: discord.Interaction):
-    global chanid
-    chanid = 1128629326179483668   
-    await interaction.response.send_modal(Message())
+    if  interaction.user.get_role(1007723429757194260):
+        global chanid
+        chanid = 1028728778890944613   
+        await interaction.response.send_modal(Message())
+    else:
+        await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
 @tree.command(name = "send-to-annonces-int", description = "Faire un message dans Annonces Interne")
 async def react(interaction: discord.Interaction):
-    global chanid
-    chanid = 1007053041943461982   
-    await interaction.response.send_modal(Message())
+    if  interaction.user.get_role(1007723429757194260):
+        global chanid
+        chanid = 1100114343758139483   
+        await interaction.response.send_modal(Message())
+    else:
+        await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
 @tree.command(name = "toolbox", description = "Donne l'url de la toolbox")
 async def react(interaction: discord.Interaction):
@@ -45,7 +52,6 @@ async def react(interaction: discord.Interaction):
 
 @client.event
 async def on_ready():
-    #  Sync tree with discord.
     await tree.sync()
     print("Commands synced.")
 
