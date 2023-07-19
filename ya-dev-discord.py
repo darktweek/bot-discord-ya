@@ -1,5 +1,6 @@
 import discord
 from discord import app_commands, ui
+from discord.ext import commands
 import os
 from dotenv import load_dotenv
 
@@ -12,18 +13,16 @@ intents.presences = True
 client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
-@client.event
-async def on_member_join(member):
-    channel = client.get_channel(1130508586926219275)
-    await channel.send(f"🎉 → *{member.name}*, c'est connecté",)
-    await member.create_dm()
-    await member.dm_channel.send(
-        f"Salutations {member.name},\nTu viens de rejoindre **{member.guild.name}** !\nJe t'invite à lire le <#1024248905925398558> et de faire la manipulation pour lier ton Handle à fin de pouvoir pleinement utiliser le serveur. \nSache que si tu n'a pas validé ton Handle, un kick sera automatiquement appliqué. \nA bien vite !")
+@tree.command(name = "ban", description = "Permet de BAN des Membres")
+async def react(ctx, membre: discord.Member, raison: str):
+    if  ctx.user.get_role(1131271268415586434):
+        channel = client.get_channel(1130508586926219275)
+        await ctx.guild.ban(membre)
+        await channel.send(f'💥 ← *{membre.name}* à été **ban** pour la raison: {raison}')
+        await ctx.response.send_message(f"Tu à **ban** {membre.name}", ephemeral=True)
+    else:
+        await ctx.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
-@client.event
-async def on_member_remove(member):
-    channel = client.get_channel(1130508586926219275)
-    await channel.send(f"😞 ← *{member.name}*, c'est déconnecté",)
 
 @client.event
 async def on_ready():
