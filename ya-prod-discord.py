@@ -14,7 +14,18 @@ intents.presences = True
 client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
-# Partie modal pour les commandes envoyer sur annonce
+# Définition des variables de rôles
+role_agentgm = 1007723429757194260
+role_handlé = 1126149657140133940
+
+# Définition des variables de chan
+chan_annonces = 1028728778890944613
+chan_annonces_int = 1100114343758139483
+chan_trackersc = 1007690884499918848
+chan_absences = 1095056597442646118
+chan_entréesortie = 1130582595940388923
+
+# Partie modal pour les commandes envoyer sur annonce et Tracker
 class Message(ui.Modal, title='Message à envoyer'):
     titre = ui.TextInput(label="Titre du message")
     texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
@@ -30,7 +41,7 @@ class Message(ui.Modal, title='Message à envoyer'):
         else:
             await channel.send(embed = embed)
 
-# Commande envoyer sur annonces avec restriction
+# Commande envoyer sur annonces avec restriction agentgm
 @tree.command(name = "envoyer-une-annonce", description = "Faire un message dans Annonces")
 @app_commands.describe(ping="Voulez-vous mentionner @everyone ?")
 @app_commands.rename(ping='ping_everyone')
@@ -39,16 +50,16 @@ class Message(ui.Modal, title='Message à envoyer'):
         app_commands.Choice(name="Non", value=2)
     ])
 async def react(interaction: discord.Interaction, ping : app_commands.Choice[int]):
-    if  interaction.user.get_role(1007723429757194260):
+    if  interaction.user.get_role(role_agentgm):
         global chanid
-        chanid = 1028728778890944613
+        chanid = chan_annonces
         global reponse
         reponse = ping.value
         await interaction.response.send_modal(Message())
     else:
         await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
-# Commande envoyer sur interne avec restriction
+# Commande envoyer sur interne avec restriction agentgm
 @tree.command(name = "envoyer-une-annonce-interne", description = "Faire un message dans Annonces Interne")
 @app_commands.describe(ping="Voulez-vous mentionner @everyone ?")
 @app_commands.rename(ping='ping_everyone')
@@ -57,14 +68,47 @@ async def react(interaction: discord.Interaction, ping : app_commands.Choice[int
         app_commands.Choice(name="Non", value=2)
     ])
 async def react(interaction: discord.Interaction, ping : app_commands.Choice[int]):
-    if  interaction.user.get_role(1007723429757194260):
+    if  interaction.user.get_role(role_agentgm):
         global chanid
-        chanid = 1100114343758139483
+        chanid = chan_annonces_int
         global reponse
         reponse = ping.value
         await interaction.response.send_modal(Message())
     else:
         await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
+
+# Commande envoyer sur tracker-sc avec restriction handlé
+@tree.command(name = "envoyer-sur-tracker", description = "Envoyer une information sur le tracker-sc")
+async def react(interaction: discord.Interaction):
+    if  interaction.user.get_role(role_handlé):
+        global chanid
+        chanid = chan_trackersc
+        global reponse
+        reponse = 2
+        await interaction.response.send_modal(Message())
+    else:
+        await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
+
+# Partie modal pour la commande Message d'absence
+class Absence(ui.Modal, title='Prévenez de votre absence'):
+    date = ui.TextInput(label="Dates de votre absence" , style=discord.TextStyle.short)
+    texte = ui.TextInput(label="Raison", style=discord.TextStyle.paragraph)
+    async def on_submit(self, interaction: discord.Interaction):
+        global chanid
+        channel = client.get_channel(chanid)
+        embed=discord.Embed(title=f"Absence de ***{interaction.user}***", color=0x7300ff)
+        embed.add_field(name="Date", value=f"{self.date}", inline=False)
+        embed.add_field(name="Raison", value=f"{self.texte}", inline=False)
+        embed.set_footer(text=f"Message de {interaction.user}")
+        await interaction.response.send_message(f'*{interaction.user}*, ton message est envoyé sur <#{chanid}>', ephemeral=True)
+        await channel.send(embed = embed)
+
+# Commande Message d'absence
+@tree.command(name = "absence", description = "Prévenir de votre absence")
+async def react(interaction: discord.Interaction):
+    global chanid
+    chanid = chan_absences
+    await interaction.response.send_modal(Absence())
 
 # Commande Toolbox
 @tree.command(name = "toolbox", description = "Donne l'url de la toolbox")
@@ -81,22 +125,22 @@ async def react(interaction: discord.Interaction):
 async def react(interaction: discord.Interaction):
     await interaction.response.send_message(f"*{interaction.user}* petit curieux! Tu trouvera tout le code à cette adresse https://github.com/darktweek/bot-discord-ya")
 
-# Commande de KICK
+# Commande de KICK avec restriction agentgm
 @tree.command(name = "kick", description = "Permet de Kick des Membres")
 async def react(ctx, membre: discord.Member, raison: str):
-    if  ctx.user.get_role(1007723429757194260):
-        channel = client.get_channel(1130582595940388923)
+    if  ctx.user.get_role(role_agentgm):
+        channel = client.get_channel(chan_entréesortie)
         await ctx.guild.kick(membre)
         await channel.send(f'🧹 ← *{membre.name}* à été **kick** pour la raison: {raison}')
         await ctx.response.send_message(f"Tu à **kick** *{membre.name}*", ephemeral=True)
     else:
         await ctx.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
-# Commande de BAN
+# Commande de BAN avec restriction agentgm
 @tree.command(name = "ban", description = "Permet de BAN des Membres")
 async def react(ctx, membre: discord.Member, raison: str):
-    if  ctx.user.get_role(1007723429757194260):
-        channel = client.get_channel(1130582595940388923)
+    if  ctx.user.get_role(role_agentgm):
+        channel = client.get_channel(chan_entréesortie)
         await ctx.guild.ban(membre)
         await channel.send(f'💥 ← *{membre.name}* à été **ban** pour la raison: {raison}')
         await ctx.response.send_message(f"Tu à **ban** {membre.name}", ephemeral=True)
@@ -106,7 +150,7 @@ async def react(ctx, membre: discord.Member, raison: str):
 # A la connection, envoyer un MP + message
 @client.event
 async def on_member_join(member):
-    channel = client.get_channel(1130582595940388923)
+    channel = client.get_channel(chan_entréesortie)
     await channel.send(f"🎉 → *{member.name}*, c'est connecté au serveur Discord",)
     await member.create_dm()
     await member.dm_channel.send(
@@ -115,9 +159,8 @@ async def on_member_join(member):
 # A la déconnection, envoyer message
 @client.event
 async def on_member_remove(member):
-    channel = client.get_channel(1130582595940388923)
+    channel = client.get_channel(chan_entréesortie)
     await channel.send(f"😞 ← *{member.name}*, c'est déconnecté du serveur Discord",)
-
 
 @client.event
 async def on_ready():

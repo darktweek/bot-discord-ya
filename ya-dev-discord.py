@@ -14,6 +14,12 @@ intents.presences = True
 client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
+role_a_avoir = 1131271268415586434
+
+chan_salon1 = 1130508586926219275
+chan_salon2 = 1131561714668806227
+chan_général = 1122252457645449258
+
 HACK_OPTIONS = [
    discord.SelectOption(label='Hacking', value='hack', description='did you experience someone hacking?'),
    discord.SelectOption(label='Harassment', value='harass', description='did someone harass you?'),
@@ -36,8 +42,7 @@ class HackView(discord.ui.View):
 async def react(interaction: discord.Interaction):
    await interaction.response.send_message(f"I'm here to help you", view=HackView())
 
-
-# Partie modal pour les commandes send-to
+# Partie modal pour les commandes envoyer sur annonce et Tracker
 class Message(ui.Modal, title='Message à envoyer'):
     titre = ui.TextInput(label="Titre du message")
     texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
@@ -53,23 +58,18 @@ class Message(ui.Modal, title='Message à envoyer'):
         else:
             await channel.send(embed = embed)
 
-# Commande send-to avec restriction
-@tree.command(name = "envoyer-une-info", description = "Envoyer une info dans le tracker")
-@app_commands.describe(ping="Voulez-vous mentionner @everyone ?")
-@app_commands.rename(ping='ping_everyone')
-@app_commands.choices(ping=[
-        app_commands.Choice(name="Oui", value=1),
-        app_commands.Choice(name="Non", value=2)
-    ])
-async def react(interaction: discord.Interaction, ping : app_commands.Choice[int]):
-    if  interaction.user.get_role(1131271268415586434):
+# Commande envoyer sur tracker-sc avec restriction
+@tree.command(name = "envoyer-sur-tracker", description = "Envoyer une information sur le tracker-sc")
+async def react(interaction: discord.Interaction):
+    if  interaction.user.get_role(role_a_avoir):
         global chanid
+        chanid = chan_salon1
         global reponse
-        chanid = 1131561714668806227   
-        reponse = ping.value
+        reponse = 2
         await interaction.response.send_modal(Message())
     else:
         await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
+
 
 @client.event
 async def on_ready():
