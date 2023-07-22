@@ -73,6 +73,7 @@ async def react(interaction: discord.Interaction):
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord. Activity(type=discord.ActivityType.watching, name='au plus profond de vos désires'))
     await tree.sync()
     print("Commands synced.")
 

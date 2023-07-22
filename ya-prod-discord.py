@@ -164,6 +164,7 @@ async def on_member_remove(member):
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord. Activity(type=discord.ActivityType.watching, name='au plus profond de vos désires'))
     await tree.sync()
     print("Commands synced.")
 
