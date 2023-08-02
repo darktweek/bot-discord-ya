@@ -154,7 +154,7 @@ async def on_member_join(member):
     await channel.send(f"🎉 → *{member.name}*, c'est connecté au serveur Discord",)
     await member.create_dm()
     await member.dm_channel.send(
-        f"Salutations {member.name},\nTu viens de rejoindre **{member.guild.name}** !\nJe t'invite à lire le <#1024248905925398558> et de faire la manipulation pour lier ton Handle à fin de pouvoir pleinement utiliser le serveur. \nSache que si tu n'a pas validé ton Handle, un kick sera automatiquement appliqué. \nA bien vite !")
+        f"Salutations {member.name},\nTu viens de rejoindre **{member.guild.name}** !\nJe t'invite à lire <#1024248905925398558> et <#1136254213626798101>, pour ensuite faire la manipulation à fin de pouvoir pleinement utiliser le serveur. \nSache que si tu n'a pas validé ton entrée, un kick sera automatiquement appliqué. \nA bien vite !")
 
 # A la déconnection, envoyer message
 @client.event
