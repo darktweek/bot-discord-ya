@@ -42,34 +42,13 @@ class HackView(discord.ui.View):
 async def react(interaction: discord.Interaction):
    await interaction.response.send_message(f"I'm here to help you", view=HackView())
 
-# Partie modal pour les commandes envoyer sur annonce et Tracker
-class Message(ui.Modal, title='Message à envoyer'):
-    titre = ui.TextInput(label="Titre du message")
-    texte = ui.TextInput(label='Message', style=discord.TextStyle.paragraph)
-    async def on_submit(self, interaction: discord.Interaction):
-        global chanid
-        global reponse
-        channel = client.get_channel(chanid)
-        embed = discord.Embed(title = f"{self.titre}", description = f"{self.texte}", color = 0x5865F2)
-        embed.set_footer(text = f"Message de *{interaction.user}*")
-        await interaction.response.send_message(f'*{interaction.user}*, ton message est envoyé sur <#{chanid}>', ephemeral=True)
-        if reponse == 1:
-            await channel.send(f"@everyone", embed = embed)
-        else:
-            await channel.send(embed = embed)
-
-# Commande envoyer sur tracker-sc avec restriction
-@tree.command(name = "envoyer-sur-tracker", description = "Envoyer une information sur le tracker-sc")
-async def react(interaction: discord.Interaction):
-    if  interaction.user.get_role(role_a_avoir):
-        global chanid
-        chanid = chan_salon1
-        global reponse
-        reponse = 2
-        await interaction.response.send_modal(Message())
-    else:
-        await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
-
+# Wave pour les messages du matin
+emoji_wave = '👋'
+liste_mot_bjr = ['hello', 'salutations', 'salut', 'yo', 'yoo', 'yooo', 'yoooo', 'yooooo', 'bonjour', 'hugh', 'hey']
+@client.event 
+async def on_message(message):
+    if message.content.lower() in liste_mot_bjr:
+        await message.add_reaction(emoji_wave)
 
 @client.event
 async def on_ready():

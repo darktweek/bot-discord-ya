@@ -162,6 +162,14 @@ async def on_member_remove(member):
     channel = client.get_channel(chan_entréesortie)
     await channel.send(f"😞 ← *{member.name}*, c'est déconnecté du serveur Discord",)
 
+# Wave pour les messages du matin
+emoji_wave = '👋'
+liste_mot_bjr = ['hello', 'salutations', 'salut', 'yo', 'yoo', 'yooo', 'yoooo', 'yooooo', 'bonjour', 'hugh', 'hey']
+@client.event 
+async def on_message(message):
+    if message.content.lower() in liste_mot_bjr:
+        await message.add_reaction(emoji_wave)
+
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord. Activity(type=discord.ActivityType.watching, name='au plus profond de vos désires'))

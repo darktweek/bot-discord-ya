@@ -8,7 +8,7 @@ This bot need a `.env` file, who need to have "token=token-id" to work.
 
 ## Prerequisites
 
-See official docs [here](https://discordpy.readthedocs.io/en/stable/intro.html).
+See official doc [here](https://discordpy.readthedocs.io/en/stable/intro.html).
 
 ## Running the tests
 
