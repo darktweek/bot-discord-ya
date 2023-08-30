@@ -3,6 +3,8 @@ from discord import app_commands, ui
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+import fnmatch
+from list import hello_list
 
 load_dotenv()
 
@@ -163,12 +165,12 @@ async def on_member_remove(member):
     await channel.send(f"😞 ← *{member.name}*, c'est déconnecté du serveur Discord",)
 
 # Wave pour les messages du matin
-emoji_wave = '👋'
-liste_mot_bjr = ['hello', 'salutations', 'salut', 'yo', 'yoo', 'yooo', 'yoooo', 'yooooo', 'bonjour', 'hugh', 'hey']
 @client.event 
 async def on_message(message):
-    if message.content.lower() in liste_mot_bjr:
-        await message.add_reaction(emoji_wave)
+    test_str = message.content.lower()
+    res = bool(list(filter(lambda x: fnmatch.fnmatch(test_str, x), hello_list)))
+    if res == True:
+        await message.add_reaction('👋')
 
 @client.event
 async def on_ready():

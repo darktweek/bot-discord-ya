@@ -42,13 +42,6 @@ class HackView(discord.ui.View):
 async def react(interaction: discord.Interaction):
    await interaction.response.send_message(f"I'm here to help you", view=HackView())
 
-# Wave pour les messages du matin
-emoji_wave = '👋'
-liste_mot_bjr = ['hello', 'salutations', 'salut', 'yo', 'yoo', 'yooo', 'yoooo', 'yooooo', 'bonjour', 'hugh', 'hey']
-@client.event 
-async def on_message(message):
-    if message.content.lower() in liste_mot_bjr:
-        await message.add_reaction(emoji_wave)
 
 @client.event
 async def on_ready():
