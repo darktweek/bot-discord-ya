@@ -4,7 +4,7 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import fnmatch
-from list import hello_list
+from conf.list import hello_list
 
 load_dotenv()
 

@@ -42,6 +42,15 @@ class HackView(discord.ui.View):
 async def react(interaction: discord.Interaction):
    await interaction.response.send_message(f"I'm here to help you", view=HackView())
 
+import fnmatch
+from conf.list import hello_list
+# Wave pour les messages du matin
+@client.event 
+async def on_message(message):
+    test_str = message.content.lower()
+    res = bool(list(filter(lambda x: fnmatch.fnmatch(test_str, x), hello_list)))
+    if res == True:
+        await message.add_reaction('👋')
 
 @client.event
 async def on_ready():
