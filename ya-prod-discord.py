@@ -4,7 +4,6 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import fnmatch
-from conf.list import hello_list
 
 load_dotenv()
 
@@ -17,15 +16,13 @@ client = discord.Client(intents=intents)
 tree = discord.app_commands.CommandTree(client)
 
 # Définition des variables de rôles
-role_agentgm = 1007723429757194260
-role_handlé = 1126149657140133940
+from var_prod.roles import *
 
-# Définition des variables de chan
-chan_annonces = 1028728778890944613
-chan_annonces_int = 1100114343758139483
-chan_trackersc = 1007690884499918848
-chan_absences = 1095056597442646118
-chan_entréesortie = 1130582595940388923
+# Import des variables DEV de chan
+from var_prod.chan import *
+
+# Import des variables de Listes
+from var_prod.list import *
 
 # Partie modal pour les commandes envoyer sur annonce et Tracker
 class Message(ui.Modal, title='Message à envoyer'):
@@ -164,13 +161,22 @@ async def on_member_remove(member):
     channel = client.get_channel(chan_entréesortie)
     await channel.send(f"😞 ← *{member.name}*, c'est déconnecté du serveur Discord",)
 
-# Wave pour les messages du matin
+# Réaction aux messages depuis liste
 @client.event 
 async def on_message(message):
-    test_str = message.content.lower()
-    res = bool(list(filter(lambda x: fnmatch.fnmatch(test_str, x), hello_list)))
-    if res == True:
+    str = message.content.lower()
+    bonapp_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), bonapp_list)))
+    hello_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), hello_list)))
+    fel_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), felicitations_list)))
+    fete_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), fete_list)))
+    if bonapp_res == True:
+        await message.add_reaction('🍜')
+    elif hello_res == True:
         await message.add_reaction('👋')
+    elif fel_res == True:
+        await message.add_reaction('🎉')
+    elif fete_res == True:
+        await message.add_reaction('🎊')
 
 @client.event
 async def on_ready():
