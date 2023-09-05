@@ -169,6 +169,7 @@ async def on_message(message):
     hello_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), hello_list)))
     fel_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), felicitations_list)))
     fete_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), fete_list)))
+    bye_res = bool(list(filter(lambda x: fnmatch.fnmatch(str, x), bye_list)))
     if bonapp_res == True:
         await message.add_reaction('🍜')
     elif hello_res == True:
@@ -177,6 +178,8 @@ async def on_message(message):
         await message.add_reaction('🎉')
     elif fete_res == True:
         await message.add_reaction('🎊')
+    elif bye_res == True:
+        await message.add_reaction('💤')
 
 @client.event
 async def on_ready():
