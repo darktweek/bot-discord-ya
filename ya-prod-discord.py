@@ -1,19 +1,13 @@
 import discord
 from discord import app_commands, ui
-from discord.ext import commands
+from discord.ext import commands, tasks
 import os
 from dotenv import load_dotenv
 import fnmatch
+import random
+import asyncio
 
 load_dotenv()
-
-# Définition des variables
-intents = discord.Intents.default()
-intents = discord.Intents.all()
-intents.typing = True
-intents.presences = True
-client = discord.Client(intents=intents)
-tree = discord.app_commands.CommandTree(client)
 
 # Définition des variables de rôles
 from var_prod.roles import *
@@ -23,6 +17,15 @@ from var_prod.chan import *
 
 # Import des variables de Listes
 from var_prod.list import *
+from var_prod.presence import *
+
+# Définition des variables
+intents = discord.Intents.default()
+intents = discord.Intents.all()
+intents.typing = True
+intents.presences = True
+client = discord.Client(intents=intents)
+tree = discord.app_commands.CommandTree(client)
 
 # Partie modal pour les commandes envoyer sur annonce et Tracker
 class Message(ui.Modal, title='Message à envoyer'):
@@ -181,10 +184,19 @@ async def on_message(message):
     elif bye_res == True:
         await message.add_reaction('💤')
 
+# Tâche pour changer le texte du bot toutes les 10 minutes (10 * 60)
+async def presence_task():
+    while True:
+        presence = random.choice(presence_var)
+        await client.change_presence(activity=discord. Activity(type=discord.ActivityType.watching, name=presence))
+        await asyncio.sleep(10 * 60)
+
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord. Activity(type=discord.ActivityType.watching, name='au plus profond de vos désires'))
     await tree.sync()
     print("Commands synced.")
+    client.loop.create_task(presence_task())
+    print("Task lunched.")
 
-client.run(os.getenv("TOKEN"))
+
+client.run(os.getenv("TOKEN-DEV"))
