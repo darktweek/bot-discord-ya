@@ -198,5 +198,4 @@ async def on_ready():
     client.loop.create_task(presence_task())
     print("Task lunched.")
 
-
-client.run(os.getenv("TOKEN-DEV"))
+client.run(os.getenv("TOKEN"))
