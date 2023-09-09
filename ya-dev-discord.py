@@ -61,6 +61,24 @@ async def react(interaction: discord.Interaction, ping : app_commands.Choice[int
     else:
         await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
 
+# Commande envoyer sur annonces-sc avec restriction agentgm
+@tree.command(name = "envoyer-une-annonce-sc", description = "Faire un message dans Annonces-SC")
+@app_commands.describe(ping="Voulez-vous mentionner @everyone ?")
+@app_commands.rename(ping='ping_everyone')
+@app_commands.choices(ping=[
+        app_commands.Choice(name="Oui", value=1),
+        app_commands.Choice(name="Non", value=2)
+    ])
+async def react(interaction: discord.Interaction, ping : app_commands.Choice[int]):
+    if  interaction.user.get_role(role_agentgm):
+        global chanid
+        chanid = chan_annonces_sc
+        global reponse
+        reponse = ping.value
+        await interaction.response.send_modal(Message())
+    else:
+        await interaction.response.send_message(f"Tu n'a pas la permission d'utiliser cette commande", ephemeral=True)
+
 # Commande envoyer sur interne avec restriction agentgm
 @tree.command(name = "envoyer-une-annonce-interne", description = "Faire un message dans Annonces Interne")
 @app_commands.describe(ping="Voulez-vous mentionner @everyone ?")
