@@ -10,7 +10,7 @@ import asyncio
 load_dotenv()
 
 print(f'wich version ?')
-prod = 1
+prod = 'prod'
 version = prod
 version = input('[prod] or dev : ')
 if version == prod:

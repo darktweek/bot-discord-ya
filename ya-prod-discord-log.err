@@ -1,3 +1,0 @@
-nohup: les entrées sont ignorées
-[2023-08-02 15:49:18] [INFO    ] discord.client: logging in using static token
-[2023-08-02 15:49:19] [INFO    ] discord.gateway: Shard ID None has connected to Gateway (Session ID: c8bfb64222b6bddd58292c4f405b576f).
