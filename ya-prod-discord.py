@@ -9,15 +9,30 @@ import asyncio
 
 load_dotenv()
 
-# Définition des variables de rôles
-from var_prod.roles import *
+print(f'wich version ?')
+prod = 1
+version = prod
+version = input('[prod] or dev : ')
+if version == prod:
+    # Définition des variables de rôles
+    from var_prod.roles import *
+    
+    # Import des variables DEV de chan
+    from var_prod.chan import *
+    
+    # Import des variables de Listes
+    from var_prod.list import *
+    from var_prod.presence import *
+else:
+    # Définition des variables de rôles
+    from var_dev.roles import *
+    
+    # Import des variables DEV de chan
+    from var_dev.chan import *
 
-# Import des variables DEV de chan
-from var_prod.chan import *
-
-# Import des variables de Listes
-from var_prod.list import *
-from var_prod.presence import *
+    # Import des variables de Listes
+    from var_prod.list import *
+    from var_prod.presence import *
 
 # Définition des variables
 intents = discord.Intents.default()
@@ -216,4 +231,7 @@ async def on_ready():
     client.loop.create_task(presence_task())
     print("Task lunched.")
 
-client.run(os.getenv("TOKEN"))
+if version == prod:
+    client.run(os.getenv("TOKEN"))
+else:
+    client.run(os.getenv("TOKEN-DEV"))
