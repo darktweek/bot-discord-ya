@@ -8,14 +8,13 @@ He use somes slash command to do his best automation.
 
 See official doc [here](https://discordpy.readthedocs.io/en/stable/intro.html).
 This bot need a `.env` file, who need to have "token=token-id" to work.
-All files in the `var_prod` folder need to be filed with correct id or data to ensure the bot is running fine.
+Set your variables to `var_dev` and/or `var_prod`.
+When bot start, he call for *dev* or *prod* variables.
 
 ## Running the tests
 
-ya-prod-discord.py is "production" product.
-ya-dev-discord.py is "developpement" product.
-When I try new fuction, I do in dev with a test discord server and make test.
-If it run good, I copy code in prod.
+When you start ya-discord.py prompt ask you `DEV` or `PROD` witch change where the bot start.
+Use `DEV` to test the bot.
 
 ## Hint
 
